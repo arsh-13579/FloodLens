@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+floodlens.db
+private_key.pem
+alert_check_log.txt
+floodlens-ui-v1-backup/
+floodlens-ui/node_modules/
+floodlens-ui/dist/

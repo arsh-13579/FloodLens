@@ -23,7 +23,7 @@ def elevation_to_rating(elevation_m):
     else:
         return 1
 
-@ttl_cache(ttl=600)
+@ttl_cache(ttl=1800)
 def get_location_risk(latitude, longitude, rainfall_override=None):
     rainfall = rainfall_override if rainfall_override is not None else fetch_rainfall(latitude, longitude)
     elevation_m = fetch_elevation(latitude, longitude)

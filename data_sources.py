@@ -6,7 +6,7 @@ def fetch_rainfall(latitude, longitude, retries=2):
         "latitude": latitude,
         "longitude": longitude,
         "daily": "precipitation_sum",
-        "past_days": 2,      # + today (forecast_days=1) = 3-day cumulative window
+        "past_days": 2,
         "forecast_days": 1,
         "timezone": "Asia/Kolkata"
     }
@@ -17,7 +17,7 @@ def fetch_rainfall(latitude, longitude, retries=2):
             daily_values = data["daily"]["precipitation_sum"]
             cumulative = sum(v for v in daily_values if v is not None)
             return round(cumulative, 1)
-        except requests.exceptions.RequestException as e:
+        except (requests.exceptions.RequestException, KeyError, IndexError, TypeError) as e:
             print(f"  Rainfall fetch failed (attempt {attempt+1}): {e}")
             if attempt == retries:
                 print("  Using fallback value: 20mm (typical monsoon estimate)")

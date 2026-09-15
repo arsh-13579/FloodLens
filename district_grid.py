@@ -57,7 +57,7 @@ def batch_fetch_rainfall(points, retries=2):
             if isinstance(data, list):
                 return [round(sum(v for v in d["daily"]["precipitation_sum"] if v is not None), 1) for d in data]
             return [round(sum(v for v in data["daily"]["precipitation_sum"] if v is not None), 1)]
-        except (requests.exceptions.RequestException, KeyError, IndexError) as e:
+        except (requests.exceptions.RequestException, KeyError, IndexError, TypeError) as e:
             print(f"  Grid rainfall fetch failed (attempt {attempt + 1}): {e}")
             if attempt == retries:
                 print("  Using fallback 20mm for all grid points")

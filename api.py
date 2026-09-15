@@ -373,6 +373,16 @@ def admin_status():
     }
 
 
+@app.get("/debug/rainfall-test")
+def debug_rainfall_test(lat: float = 26.7496, lon: float = 83.3569):
+    import requests
+    r = requests.get("https://api.open-meteo.com/v1/forecast", params={
+        "latitude": lat, "longitude": lon,
+        "daily": "precipitation_sum", "past_days": 2, "forecast_days": 1,
+        "timezone": "Asia/Kolkata"
+    }, timeout=15)
+    return {"status_code": r.status_code, "body": r.text[:1000]}
+
 @app.get("/health")
 def health():
     return {"status": "ok"}

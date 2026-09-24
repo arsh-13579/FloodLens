@@ -89,6 +89,9 @@ export default function App() {
   function handleSelect(lat, lon) {
     setSelectedPoint({ lat: Number(lat.toFixed(4)), lon: Number(lon.toFixed(4)) })
   }
+  function handleClearSelection() {
+  setSelectedPoint(null)
+  }
 
   function handleUseLocation() {
     if (!navigator.geolocation) {
@@ -103,6 +106,7 @@ export default function App() {
 
   const pageProps = {
     villages, selectedPoint, onSelect: handleSelect, onUseLocation: handleUseLocation,
+    onClearSelection: handleClearSelection,
     gridPoints, shelters, route, weather,
     riskData, advisoryText, advisoryLoading, error,
     profile, setProfile, language, recentActivity,

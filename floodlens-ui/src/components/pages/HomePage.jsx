@@ -1,9 +1,9 @@
-import { MapPin } from 'lucide-react'
 import MapView from '../MapView.jsx'
-import { RiskAlertCard, RiskBreakdownCard, AdvisoryCard, ShelterRouteCard, WeatherLocationBar } from '../HomeCards.jsx'
+import FloatingInfoPanel from '../FloatingInfoPanel.jsx'
+import MapControls from '../MapControls.jsx'
 
 export default function HomePage({
-  villages, selectedPoint, onSelect, onUseLocation,
+  villages, selectedPoint, onSelect, onUseLocation, onClearSelection,
   gridPoints, shelters, route, weather,
   riskData, advisoryText, advisoryLoading,
   error,
@@ -11,41 +11,44 @@ export default function HomePage({
   const nearestShelter = shelters && shelters.length > 0 ? shelters[0] : null
 
   return (
-    <div className="fl-page-grid">
-      <div className="fl-map-col">
-        <div className="fl-map-toolbar">
-          <button className="fl-btn" onClick={onUseLocation} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <MapPin size={16} /> Use My Location
-          </button>
-        </div>
-        <MapView
-          villages={villages}
-          selectedPoint={selectedPoint}
-          onSelect={onSelect}
-          gridPoints={gridPoints}
-          shelters={shelters}
-          routeToShelter={route}
-        />
-        <WeatherLocationBar selectedPoint={selectedPoint} weather={weather} />
-      </div>
+    <div className="fl-fullbleed-map-wrap">
+      <MapView
+        villages={villages}
+        selectedPoint={selectedPoint}
+        onSelect={onSelect}
+        gridPoints={gridPoints}
+        shelters={shelters}
+        routeToShelter={route}
+        height="100%"
+      />
 
-      <div className="fl-panel-col">
-        {error && <div className="fl-card fl-status-warning">{error}</div>}
-        {!selectedPoint && (
-          <div className="fl-card">
-            <h4>Get Started</h4>
-            <p className="fl-card-subtext">Click a point on the map, or use "Use My Location", to see your real-time risk report.</p>
-          </div>
-        )}
-        {selectedPoint && riskData && (
-          <>
-            <RiskAlertCard riskData={riskData} />
-            <RiskBreakdownCard breakdown={riskData.breakdown} />
-            <AdvisoryCard advisoryText={advisoryText} loading={advisoryLoading} />
-            <ShelterRouteCard nearestShelter={nearestShelter} route={route} onViewRoute={() => {}} />
-          </>
-        )}
-      </div>
+      <MapControls onUseLocation={onUseLocation} />
+
+      <FloatingInfoPanel
+        selectedPoint={selectedPoint}
+        villages={villages}
+        riskData={riskData}
+        advisoryText={advisoryText}
+        advisoryLoading={advisoryLoading}
+        nearestShelter={nearestShelter}
+        route={route}
+        onClose={onClearSelection}
+        onViewRoute={() => {}}
+      />
+
+      {!selectedPoint && (
+        <div className="fl-floating-hint">
+          Click a point on the map, or use the locate button, to see a real-time risk report.
+        </div>
+      )}
+
+      {error && <div className="fl-floating-error">{error}</div>}
+
+      {weather && selectedPoint && (
+        <div className="fl-floating-weather">
+          {weather.condition}, {weather.temperature_c}°C
+        </div>
+      )}
     </div>
   )
 }

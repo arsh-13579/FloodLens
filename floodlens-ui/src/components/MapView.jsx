@@ -11,7 +11,7 @@ L.Icon.Default.mergeOptions({
 
 const shelterIcon = L.divIcon({
   className: 'fl-shelter-icon',
-  html: '🏠',
+  html: '🏢',
   iconSize: [28, 28],
 })
 

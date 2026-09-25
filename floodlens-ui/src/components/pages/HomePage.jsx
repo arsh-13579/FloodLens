@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import MapView from '../MapView.jsx'
 import FloatingInfoPanel from '../FloatingInfoPanel.jsx'
 import MapControls from '../MapControls.jsx'
@@ -8,7 +9,12 @@ export default function HomePage({
   riskData, advisoryText, advisoryLoading,
   error,
 }) {
+  const [mapType, setMapType] = useState('satellite')
   const nearestShelter = shelters && shelters.length > 0 ? shelters[0] : null
+
+  function toggleMapType() {
+    setMapType((prev) => (prev === 'satellite' ? 'standard' : 'satellite'))
+  }
 
   return (
     <div className="fl-fullbleed-map-wrap">
@@ -20,9 +26,10 @@ export default function HomePage({
         shelters={shelters}
         routeToShelter={route}
         height="100%"
+        mapType={mapType}
       />
 
-      <MapControls onUseLocation={onUseLocation} />
+      <MapControls onUseLocation={onUseLocation} mapType={mapType} onToggleMapType={toggleMapType} />
 
       <FloatingInfoPanel
         selectedPoint={selectedPoint}

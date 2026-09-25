@@ -15,6 +15,18 @@ const shelterIcon = L.divIcon({
   iconSize: [28, 28],
 })
 
+// Two real, distinct tile sources — no fake/mocked imagery either way.
+const TILE_SOURCES = {
+  satellite: {
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri',
+  },
+  standard: {
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; OpenStreetMap contributors',
+  },
+}
+
 function ClickHandler({ onSelect }) {
   useMapEvents({ click(e) { onSelect(e.latlng.lat, e.latlng.lng) } })
   return null
@@ -24,14 +36,13 @@ export default function MapView({
   villages, selectedPoint, onSelect,
   gridPoints, shelters, routeToShelter,
   height = '560px', showHeatmap = true,
+  mapType = 'satellite',
 }) {
+  const tiles = TILE_SOURCES[mapType] || TILE_SOURCES.satellite
+
   return (
     <MapContainer center={[26.7606, 83.3732]} zoom={11} style={{ height, width: '100%', borderRadius: '14px' }}>
-      {/* Real Esri satellite imagery — free, no API key required */}
-      <TileLayer
-        attribution='Tiles &copy; Esri'
-        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-      />
+      <TileLayer attribution={tiles.attribution} url={tiles.url} />
 
       <ClickHandler onSelect={onSelect} />
 
@@ -57,18 +68,11 @@ export default function MapView({
 
       {routeToShelter && routeToShelter.segments && routeToShelter.segments.length > 0 ? (
         routeToShelter.segments.map((seg, i) => (
-          <Polyline
-            key={i}
-            positions={seg.coordinates}
-            pathOptions={{ color: seg.color, weight: 6, opacity: 0.9 }}
-          />
+          <Polyline key={i} positions={seg.coordinates} pathOptions={{ color: seg.color, weight: 6, opacity: 0.9 }} />
         ))
       ) : (
         routeToShelter && routeToShelter.coordinates && (
-          <Polyline
-            positions={routeToShelter.coordinates}
-            pathOptions={{ color: '#3b82f6', weight: 5, dashArray: '8, 8' }}
-          />
+          <Polyline positions={routeToShelter.coordinates} pathOptions={{ color: '#3b82f6', weight: 5, dashArray: '8, 8' }} />
         )
       )}
     </MapContainer>

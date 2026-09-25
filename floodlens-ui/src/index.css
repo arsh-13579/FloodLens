@@ -407,3 +407,21 @@ input[type="range"] { accent-color: var(--fl-accent); cursor: pointer; }
 .fl-floating-hint { top: 16px; left: 16px; color: var(--fl-text-dim); max-width: 300px; }
 .fl-floating-error { top: 16px; left: 16px; color: #b45309; max-width: 300px; }
 .fl-floating-weather { bottom: 16px; left: 16px; color: var(--fl-text); font-weight: 600; }
+
+/* ---- Compass badge (static, always north-up) ---- */
+.fl-compass {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #dc2626;
+  border: 2px solid var(--fl-border);
+}
+
+/* ---- Current map-type label, near the layers toggle ---- */
+.fl-maptype-label {
+  position: absolute; top: 64px; right: 16px; z-index: 500;
+  background: rgba(0,0,0,0.65); color: white;
+  font-size: 11px; font-weight: 600; padding: 4px 10px;
+  border-radius: 20px; pointer-events: none;
+}

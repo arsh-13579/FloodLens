@@ -7,6 +7,7 @@ SHELTERS = {
     "AIIMS Gorakhpur": (26.7815, 83.4267),
     "Railway Hospital, Gorakhpur": (26.7590, 83.3660),
     "Gorakhpur Collectorate (relief coordination)": (26.7580, 83.3700),
+    
 }
 
 def find_nearest_shelter(latitude, longitude):

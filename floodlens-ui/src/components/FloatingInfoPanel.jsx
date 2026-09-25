@@ -80,7 +80,7 @@ export default function FloatingInfoPanel({
 
           {nearestShelter && (
             <div className="fl-floating-shelter">
-              <span>🏠 {nearestShelter.name}</span>
+              <span>🏢 {nearestShelter.name}</span>
               <span className="fl-floating-shelter-dist">{nearestShelter.distance_km} km</span>
             </div>
           )}

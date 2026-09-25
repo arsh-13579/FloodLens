@@ -13,8 +13,7 @@ export default function MapControls({ onUseLocation, mapType, onToggleMapType })
         <div className="fl-compass" title="North">N</div>
       </div>
 
-      {/* Small label showing the current view, so the layer toggle's effect is clear */}
-      <div className="fl-maptype-label">{mapType === 'satellite' ? 'Satellite' : 'Standard'}</div>
+      
     </>
   )
 }

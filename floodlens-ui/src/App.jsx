@@ -127,9 +127,7 @@ export default function App() {
         <div className="fl-main">
           <Header language={language} setLanguage={setLanguage} onOpenMobile={() => setMobileNavOpen(true)} />
           <div className={`fl-content ${activePage === 'home' ? 'fl-content-home' : ''}`} key={activePage}>
-            {activePage !== 'home' && (
-              <Header language={language} setLanguage={setLanguage} onOpenMobile={() => setMobileNavOpen(true)} />
-            )}
+            {activePage === 'home' && <Homepage {...pageProps} />}
             {activePage === 'map' && <MapPage {...pageProps} />}
             {activePage === 'advisory' && <AdvisoryPage {...pageProps} />}
             {activePage === 'whatif' && <WhatIfPage {...pageProps} />}

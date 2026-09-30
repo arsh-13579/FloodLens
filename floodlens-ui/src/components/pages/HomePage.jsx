@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { Menu } from 'lucide-react'
 import MapView from '../MapView.jsx'
 import FloatingInfoPanel from '../FloatingInfoPanel.jsx'
 import MapControls from '../MapControls.jsx'
 
 export default function HomePage({
-  villages, selectedPoint, onSelect, onUseLocation, onClearSelection,
+  villages, selectedPoint, onSelect, onUseLocation, onClearSelection, onOpenMobile,
   gridPoints, shelters, route, weather,
   riskData, advisoryText, advisoryLoading,
   error,
@@ -17,17 +18,23 @@ export default function HomePage({
   }
 
   return (
-    <div className="fl-fullbleed-map-wrap">
-      <MapView
-        villages={villages}
-        selectedPoint={selectedPoint}
-        onSelect={onSelect}
-        gridPoints={gridPoints}
-        shelters={shelters}
-        routeToShelter={route}
-        height="100%"
-        mapType={mapType}
-      />
+    <div className="fl-home-fullscreen">
+      <div className="fl-home-map-bg">
+        <MapView
+          villages={villages}
+          selectedPoint={selectedPoint}
+          onSelect={onSelect}
+          gridPoints={gridPoints}
+          shelters={shelters}
+          routeToShelter={route}
+          height="100vh"
+          mapType={mapType}
+          zoomPosition="bottomleft"
+        />
+      </div>
+
+      {/* Mobile-only hamburger — the normal Header (which hosts this elsewhere) is hidden on this page */}
+      <button className="fl-home-hamburger" onClick={onOpenMobile}><Menu size={20} /></button>
 
       <MapControls onUseLocation={onUseLocation} mapType={mapType} onToggleMapType={toggleMapType} />
 

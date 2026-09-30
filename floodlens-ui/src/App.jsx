@@ -107,6 +107,7 @@ export default function App() {
   const pageProps = {
     villages, selectedPoint, onSelect: handleSelect, onUseLocation: handleUseLocation,
     onClearSelection: handleClearSelection,
+    onOpenMobile: () => setMobileNavOpen(true),   // ← add this line
     gridPoints, shelters, route, weather,
     riskData, advisoryText, advisoryLoading, error,
     profile, setProfile, language, recentActivity,
@@ -119,11 +120,16 @@ export default function App() {
           onNavigate={setActivePage}
           mobileOpen={mobileNavOpen}
           onCloseMobile={() => setMobileNavOpen(false)}
+          floating={activePage === 'home'}
+          language={language}
+          setLanguage={setLanguage}
         />
         <div className="fl-main">
           <Header language={language} setLanguage={setLanguage} onOpenMobile={() => setMobileNavOpen(true)} />
-          <div className="fl-content" key={activePage}>
-            {activePage === 'home' && <HomePage {...pageProps} />}
+          <div className={`fl-content ${activePage === 'home' ? 'fl-content-home' : ''}`} key={activePage}>
+            {activePage !== 'home' && (
+              <Header language={language} setLanguage={setLanguage} onOpenMobile={() => setMobileNavOpen(true)} />
+            )}
             {activePage === 'map' && <MapPage {...pageProps} />}
             {activePage === 'advisory' && <AdvisoryPage {...pageProps} />}
             {activePage === 'whatif' && <WhatIfPage {...pageProps} />}

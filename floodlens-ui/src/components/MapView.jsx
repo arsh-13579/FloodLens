@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, CircleMarker, Popup, Polyline, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, CircleMarker, Popup, Polyline, ZoomControl, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import HeatmapLayer from './HeatmapLayer.jsx'
 
@@ -11,11 +11,10 @@ L.Icon.Default.mergeOptions({
 
 const shelterIcon = L.divIcon({
   className: 'fl-shelter-icon',
-  html: '🏢',
+  html: '🏠',
   iconSize: [28, 28],
 })
 
-// Two real, distinct tile sources — no fake/mocked imagery either way.
 const TILE_SOURCES = {
   satellite: {
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
@@ -37,12 +36,14 @@ export default function MapView({
   gridPoints, shelters, routeToShelter,
   height = '560px', showHeatmap = true,
   mapType = 'satellite',
+  zoomPosition = 'topleft',
 }) {
   const tiles = TILE_SOURCES[mapType] || TILE_SOURCES.satellite
 
   return (
-    <MapContainer center={[26.7606, 83.3732]} zoom={11} style={{ height, width: '100%', borderRadius: '14px' }}>
+    <MapContainer center={[26.7606, 83.3732]} zoom={11} zoomControl={false} style={{ height, width: '100%', borderRadius: '14px' }}>
       <TileLayer attribution={tiles.attribution} url={tiles.url} />
+      <ZoomControl position={zoomPosition} />
 
       <ClickHandler onSelect={onSelect} />
 
